@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class createTeamsController extends AbstractController
+class teamsController extends AbstractController
 {
     /**
     * @var Environment
@@ -34,7 +34,8 @@ class createTeamsController extends AbstractController
      * @Route("/createteam", name="form")
      */
 
-    public function addTeam(Request $request) {
+    public function addTeam(Request $request)
+    {
 
         $team = new Teams();
 
@@ -50,7 +51,26 @@ class createTeamsController extends AbstractController
         return $this->render('/createTeamView.html.twig', array('form' => $form->createView(),
         ));
 
+    }
 
-  }
+    /**
+     * @Route("/viewteam", name="viewteam")
+     */
+
+    public function viewArticle()
+    {
+        /** @var TeamsRepository $viewlist */
+
+        $viewlist = $this->entity->getRepository(Teams::class);
+
+        $teams = $viewlist->findAll();
+
+        return $this->render('/listTeamView.html.twig', ['teams' => $teams]
+         );
+
+        //delete article
+        //$this->bdd->removie($articles);
+
+    }
 
 }
