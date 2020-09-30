@@ -3,28 +3,36 @@
 
 namespace App\Controller;
 
+use App\AppService\ApiService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Gitlab\Client;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ApiController extends AbstractController
 {
-    private $client;
 
-    public function __construct( Client $client) {
-        $this->client = $client;
+    private $apiService;
+
+    public function __construct(ApiService $ApiService)
+    {
+        $this->apiService = $ApiService;
     }
+
+
 
     /**
-     * @Route("/list", name="")
+     * @Route("/test")
+     * @return Response
      */
 
-    public function index() {
+    public function api()
+    {
+        $test = $this->apiService->merge("21221266");
 
-        $issues = $this->client->mergeRequests()->all();
-        dump($issues);die;
-
+        return (new Response("toto"));
     }
+    //72732854
+
 }
 
 
