@@ -17,7 +17,6 @@ class projectController extends AbstractController
         $this->index();
     }
 
-
     /**
      * @Route("/list", name="")
      */

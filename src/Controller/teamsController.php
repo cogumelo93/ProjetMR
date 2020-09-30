@@ -12,6 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * @Route("/team")
+ */
+
 class teamsController extends AbstractController
 {
     /**
@@ -54,10 +58,10 @@ class teamsController extends AbstractController
     }
 
     /**
-     * @Route("/viewteam", name="viewteam")
+     * @Route("/manageteam", name="manageteam")
      */
 
-    public function viewArticle()
+    public function viewTeam()
     {
         /** @var TeamsRepository $viewlist */
 
@@ -65,11 +69,21 @@ class teamsController extends AbstractController
 
         $teams = $viewlist->findAll();
 
-        return $this->render('/listTeamView.html.twig', ['teams' => $teams]
+        return $this->render('/manageTeam.html.twig', ['teams' => $teams]
          );
+    }
 
-        //delete article
-        //$this->bdd->removie($articles);
+    /**
+     * @Route("/deleteteam/{id}", name="deleteteam")
+     */
+
+    public function deleteTeam(int $id) {
+
+        $sup = $this->entity->getRepository(Teams::class);
+        $teamtodelete = $sup->findOneById($id);
+        $this->entity->remove($teamtodelete);
+        $this->entity->flush();
+        return $this->redirectToRoute('manageteam');
 
     }
 
