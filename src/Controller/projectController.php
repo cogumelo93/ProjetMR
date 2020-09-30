@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Teams;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Gitlab\Client;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,6 +27,9 @@ class projectController extends AbstractController
 
         $issues = $this->client->mergeRequests()->all('21256854');
         dump($issues);die;
+
+        $teams= new Teams();
+        $teams->getProjectIds();
 
     }
 }
