@@ -1,0 +1,27 @@
+{% extends "home.html.twig" %}
+
+{% block body %}
+
+<h1>TEAMS : </h1>
+
+{% for team in teams %}
+    <li>{{ loop.index }} : {{ team.name }}</li>
+{% endfor %}
+
+
+<p>*************************************************</p>
+
+</a>
+<a href="/createteam">
+    <button type="submit" >Create a Team</button>
+</a>
+<br />
+<br />
+</a>
+<a href="/manageteam">
+    <button type="submit" >Manage team</button>
+</a>
+
+
+{% endblock %}
+

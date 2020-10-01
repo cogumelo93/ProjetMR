@@ -12,9 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/team")
- */
 
 class teamsController extends AbstractController
 {
@@ -35,6 +32,24 @@ class teamsController extends AbstractController
     }
 
     /**
+     * @Route("/home", name="home")
+     */
+
+    public function homeTeam(Request $request)
+     {
+
+        /** @var TeamsRepository $viewlist */
+
+        $viewlist = $this->entity->getRepository(Teams::class);
+
+        $teams = $viewlist->findAll();
+
+        return $this->render('/homeTeamView.html.twig', ['teams' => $teams]
+         );
+
+       }
+
+    /**
      * @Route("/createteam", name="form")
      */
 
@@ -50,9 +65,10 @@ class teamsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entity->persist($team);
             $this->entity->flush($team);
+            return $this->redirectToRoute('home');
         }
 
-        return $this->render('/createTeamView.html.twig', array('form' => $form->createView(),
+        return $this->render('/formTeamView.html.twig', array('form' => $form->createView(),
         ));
 
     }
@@ -77,14 +93,44 @@ class teamsController extends AbstractController
      * @Route("/deleteteam/{id}", name="deleteteam")
      */
 
-    public function deleteTeam(int $id) {
+    public function deleteTeam(int $id)
+    {
 
         $sup = $this->entity->getRepository(Teams::class);
         $teamtodelete = $sup->findOneById($id);
         $this->entity->remove($teamtodelete);
         $this->entity->flush();
-        return $this->redirectToRoute('manageteam');
+        return $this->redirectToRoute('home');
 
+    }
+
+    /**
+     * @Route("/updateteam/{id}", name="updateteam")
+     */
+
+    public function updateTeam(int $id, Request $request)
+    {
+        $teams = $this->entity->getRepository(Teams::class);
+        $teamtoupdate = $teams->findOneById($id);
+
+        /** @var Teams $teams */
+
+        $form = $this->createForm(createTeamForm::class, $teamtoupdate);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->entity->persist($teamtoupdate);
+            $this->entity->flush();
+            return $this->redirectToRoute('home');
+        }
+
+        $display = $this->twig->render('formTeamView.html.twig', [
+                'form' => $form->createView(),
+                'case' => true
+                ]);
+                return new Response($display);
     }
 
 }

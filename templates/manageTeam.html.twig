@@ -1,4 +1,4 @@
-{% extends "homeTeam.html.twig" %}
+{% extends "home.html.twig" %}
 
 {% block body %}
 
@@ -8,6 +8,9 @@
     <li>{{ loop.index }} : {{ team.name }}</li>
     <a href="{{ path('deleteteam', {'id' : team.id}) }}">
         <button type="submit" >Delete</button>
+    </a>
+    <a href="{{ path('updateteam', {'id' : team.id}) }}">
+        <button type="submit" >Update</button>
     </a>
 {% endfor %}
 
