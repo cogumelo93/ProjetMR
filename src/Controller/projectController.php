@@ -3,9 +3,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Project;
 use App\Entity\Teams;
+use App\Forms\createTeamForm;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Gitlab\Client;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\AppService\ApiService;
 
@@ -13,7 +18,9 @@ class projectController extends AbstractController
 {
     private $client;
 
-    public function __construct( Client $client) {
+    public function __construct(Client $client, EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
         $this->client = $client;
         $this->index();
     }
@@ -21,15 +28,37 @@ class projectController extends AbstractController
 
     /**
      * @Route("/list", name="")
+     *
      */
 
-    public function index() {
+    public function index()
+    {
 
-        $issues = $this->client->mergeRequests()->all('21256854');
-        dump($issues);die;
 
-        $teams= new Teams();
-        $teams->getProjectIds();
+        $issues = $this->client->mergeRequests()->all();
+        foreach($issues as $issue) {
+            $test=$issue["project_id"];
+            dump($test);die();
+            //dump(array_search("id", $issue));die();
+        }
 
+
+
+    }
+
+
+
+    public function addProject(Request $request, $id ) {
+
+
+        $Project = new Project();
+        $Project->setIdProject($request->query->get($id));
+
+
+        $this->entityManager->persist($Project);
+        $this->entityManager->flush($Project);
+
+
+        return new \Symfony\Component\HttpFoundation\Response($Project->getIdProject());
     }
 }

@@ -20,16 +20,18 @@ class ApiController extends AbstractController
 
 
 
+
     /**
-     * @Route("/test")
+     * @Route("/te")
      * @return Response
      */
 
-    public function api()
-    {
-        $test = $this->apiService->merge("21221266");
+    public function apibdd(){
+
+        $bdd = $this->apiService->merge()->all();
 
         return (new Response("toto"));
+
     }
     //72732854
 

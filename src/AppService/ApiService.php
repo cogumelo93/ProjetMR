@@ -18,9 +18,9 @@ class ApiService
 
 
 
-    public function merge(String $id)
+    public function merge()
     {
-        $issues = $this->client->mergeRequests()->all($id);
+        $issues = $this->client->mergeRequests()->all();
         $idProject = $issues;
         dump($issues);die;
         return($idProject);
