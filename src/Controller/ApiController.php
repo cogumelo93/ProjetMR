@@ -21,19 +21,28 @@ class ApiController extends AbstractController
 
 
 
+
     /**
-     * @Route("/te")
-     * @return Response
+     * @Route("/list", name="")
+     *
      */
 
-    public function apibdd(){
+    public function index()
+    {
 
-        $bdd = $this->apiService->merge()->all();
 
-        return (new Response("toto"));
+        $issues = $this->client->projects()->all(['owned' => true]);
+        foreach($issues as $issue) {
 
+            $id=$issue["id"];
+            dump($id);
+            //dump(array_search("id", $issue));die();
+            $re = $this->client->mergeRequests()->all($id);
+            dump($re);
+        }
+        die();
+        
     }
-    //72732854
 
 }
 

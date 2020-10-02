@@ -26,26 +26,6 @@ class projectController extends AbstractController
     }
 
 
-    /**
-     * @Route("/list", name="")
-     *
-     */
-
-    public function index()
-    {
-
-
-        $issues = $this->client->mergeRequests()->all();
-        foreach($issues as $issue) {
-            $test=$issue["project_id"];
-            dump($test);die();
-            //dump(array_search("id", $issue));die();
-        }
-
-
-
-    }
-
 
 
     public function addProject(Request $request, $id ) {
