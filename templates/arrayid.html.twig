@@ -1,0 +1,25 @@
+{% extends "home.html.twig" %}
+
+{% block body %}
+
+    <h1>TEAMS : </h1>
+
+    {% for id in arrayID %}
+        <li>{{ loop.index }} : {{ id }}</li>
+    {% endfor %}
+    <p>*************************************************</p>
+
+    <!--
+    <a>
+        <a href="/manageteam">
+        <button type="submit">supprimer un projet à une team</button>
+    </a>
+        <br/>
+
+    <br/>
+        <a>
+            <a href="/manageteam">
+            <button type="submit">aujouter un projet à une team</button>
+        </a>
+        <->
+{% endblock %}

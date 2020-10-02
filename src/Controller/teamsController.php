@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Project;
 use App\Entity\Teams;
+use Gitlab\Client;
 use Twig\Environment;
 use App\Forms\createTeamForm;
 
@@ -20,15 +22,29 @@ class teamsController extends AbstractController
     */
     private $twig;
     private $entity;
+    private $client;
     /**
     * DefaultController constructor.
     * @param Environment $twig
     */
 
-    public function __construct(Environment $twig, EntityManagerInterface $entity)
+    public function __construct(Environment $twig, EntityManagerInterface $entity,Client $client)
     {
         $this->twig = $twig;
         $this->entity = $entity;
+        $this->client = $client;
+    }
+
+    public function index()
+    {
+        $issues = $this->client->projects()->all(['owned' => true]);
+        foreach($issues as $issue) {
+            $id=$issue["id"];
+            //dump(array_search("id", $issue));die();
+            $re = $this->client->mergeRequests()->all($id);
+            //dump($re);die();
+        }
+        return ($re);
     }
 
     /**
@@ -49,6 +65,37 @@ class teamsController extends AbstractController
          );
 
        }
+
+    /**
+     * @Route("/array", name="array")
+     */
+     public function projectlists(){
+
+         $theo = $this->index();
+         $arrayID = [];
+
+         foreach($theo as $issue) {
+             $title=$issue["title"];
+             //$arrayID = [];
+             array_push($arrayID, $title);
+         }
+
+         return $this->render('/arrayid.html.twig', ['arrayID' => $arrayID]
+         );
+
+
+
+     }
+
+      /*/ public function projectlist(Request $request){
+
+        $viewProject = $this->entity->getRepository(Project::class);
+
+        $projet = $viewProject->findAll();
+
+           return $this->render('/homeTeamView.html.twig', ['project' => $projet]
+           );
+       }/*/
 
     /**
      * @Route("/createteam", name="form")

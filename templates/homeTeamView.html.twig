@@ -2,12 +2,11 @@
 
 {% block body %}
 
-<h1>TEAMS : </h1>
+<h1>project : </h1>
 
 {% for team in teams %}
     <li>{{ loop.index }} : {{ team.name }}</li>
 {% endfor %}
-
 
 <p>*************************************************</p>
 
@@ -21,7 +20,23 @@
 <a href="/manageteam">
     <button type="submit" >Manage team</button>
 </a>
+<br/>
+<br />
+<a href="/array">
+    <button type="submit" >list of project</button>
+</a>
+<!--
+<a>
+    <a href="/manageteam">
+    <button type="submit">supprimer un projet à une team</button>
+</a>
+    <br/>
 
-
+<br/>
+    <a>
+        <a href="/manageteam">
+        <button type="submit">aujouter un projet à une team</button>
+    </a>
+    <->
 {% endblock %}
 
