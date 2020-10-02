@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
 class teamsController extends AbstractController
 {
     /**
@@ -31,6 +32,24 @@ class teamsController extends AbstractController
     }
 
     /**
+     * @Route("/home", name="home")
+     */
+
+    public function homeTeam(Request $request)
+     {
+
+        /** @var TeamsRepository $viewlist */
+
+        $viewlist = $this->entity->getRepository(Teams::class);
+
+        $teams = $viewlist->findAll();
+
+        return $this->render('/homeTeamView.html.twig', ['teams' => $teams]
+         );
+
+       }
+
+    /**
      * @Route("/createteam", name="form")
      */
 
@@ -46,18 +65,19 @@ class teamsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entity->persist($team);
             $this->entity->flush($team);
+            return $this->redirectToRoute('home');
         }
 
-        return $this->render('/createTeamView.html.twig', array('form' => $form->createView(),
+        return $this->render('/formTeamView.html.twig', array('form' => $form->createView(),
         ));
 
     }
 
     /**
-     * @Route("/viewteam", name="viewteam")
+     * @Route("/manageteam", name="manageteam")
      */
 
-    public function viewArticle()
+    public function viewTeam()
     {
         /** @var TeamsRepository $viewlist */
 
@@ -65,12 +85,52 @@ class teamsController extends AbstractController
 
         $teams = $viewlist->findAll();
 
-        return $this->render('/listTeamView.html.twig', ['teams' => $teams]
+        return $this->render('/manageTeam.html.twig', ['teams' => $teams]
          );
+    }
 
-        //delete article
-        //$this->bdd->removie($articles);
+    /**
+     * @Route("/deleteteam/{id}", name="deleteteam")
+     */
 
+    public function deleteTeam(int $id)
+    {
+
+        $sup = $this->entity->getRepository(Teams::class);
+        $teamtodelete = $sup->findOneById($id);
+        $this->entity->remove($teamtodelete);
+        $this->entity->flush();
+        return $this->redirectToRoute('home');
+
+    }
+
+    /**
+     * @Route("/updateteam/{id}", name="updateteam")
+     */
+
+    public function updateTeam(int $id, Request $request)
+    {
+        $teams = $this->entity->getRepository(Teams::class);
+        $teamtoupdate = $teams->findOneById($id);
+
+        /** @var Teams $teams */
+
+        $form = $this->createForm(createTeamForm::class, $teamtoupdate);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->entity->persist($teamtoupdate);
+            $this->entity->flush();
+            return $this->redirectToRoute('home');
+        }
+
+        $display = $this->twig->render('formTeamView.html.twig', [
+                'form' => $form->createView(),
+                'case' => true
+                ]);
+                return new Response($display);
     }
 
 }

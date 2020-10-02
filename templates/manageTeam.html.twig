@@ -1,0 +1,17 @@
+{% extends "home.html.twig" %}
+
+{% block body %}
+
+<h1>Manage Team</h1>
+
+{% for team in teams %}
+    <li>{{ loop.index }} : {{ team.name }}</li>
+    <a href="{{ path('deleteteam', {'id' : team.id}) }}">
+        <button type="submit" >Delete</button>
+    </a>
+    <a href="{{ path('updateteam', {'id' : team.id}) }}">
+        <button type="submit" >Update</button>
+    </a>
+{% endfor %}
+
+{% endblock %}

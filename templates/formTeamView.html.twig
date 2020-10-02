@@ -1,0 +1,16 @@
+{% extends "home.html.twig" %}
+
+{% block body %}
+
+{% if case is defined %}
+    <h1>Change Name</h1>
+{% else %}
+    <h1>Create Team</h1>
+{% endif %}
+{{ form_start(form) }}
+{{ form_row(form.name) }}
+<button type="submit" class="btn btn-primary">Submit</button>
+{{ form_end(form) }}
+
+{% endblock %}
+
