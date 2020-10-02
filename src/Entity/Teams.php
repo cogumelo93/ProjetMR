@@ -25,7 +25,7 @@ class Teams
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Project::class)
+     * @ORM\ManyToMany(targetEntity=Project::class,cascade={"persist"})
      */
     private $project_ids;
 

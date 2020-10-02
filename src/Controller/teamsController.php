@@ -44,6 +44,7 @@ class teamsController extends AbstractController
 
         $teams = $viewlist->findAll();
 
+
         return $this->render('/homeTeamView.html.twig', ['teams' => $teams]
          );
 
