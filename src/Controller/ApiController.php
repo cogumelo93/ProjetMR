@@ -27,7 +27,10 @@ class ApiController extends AbstractController
     }
 
 
-
+    /**
+     * @Route("/lissdf", name="dfs")
+     *
+     */
 
 
     public function index()
@@ -37,6 +40,7 @@ class ApiController extends AbstractController
             $id=$issue["id"];
             //dump(array_search("id", $issue));die();
             $re = $this->client->mergeRequests()->all($id);
+
         }
         return ($re);
     }
@@ -68,6 +72,7 @@ class ApiController extends AbstractController
 
             //$project renvoie la ligne avec l'id choisi dans la table projects
             $project = $Projectbddid->findOneBy(array('id_project' => $id['project_id']));
+
             //Si la ligne n'existe pas il la créé
 
             if (!$project) {
@@ -79,9 +84,7 @@ class ApiController extends AbstractController
                 //return new Response('ca marche pas bg');
             }
 
-
             //$project_id = $em->getRepository(Project::class)->findOneBy(['id' => $id]);
-
             $teams->addProjectId($project);
 
 

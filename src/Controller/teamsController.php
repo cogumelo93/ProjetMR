@@ -87,15 +87,9 @@ class teamsController extends AbstractController
 
      }
 
-      /*/ public function projectlist(Request $request){
 
-        $viewProject = $this->entity->getRepository(Project::class);
 
-        $projet = $viewProject->findAll();
 
-           return $this->render('/homeTeamView.html.twig', ['project' => $projet]
-           );
-       }/*/
 
     /**
      * @Route("/createteam", name="form")

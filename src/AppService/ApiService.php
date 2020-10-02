@@ -22,7 +22,6 @@ class ApiService
     {
         $issues = $this->client->mergeRequests()->all();
         $idProject = $issues;
-        dump($issues);die;
         return($idProject);
 
     }

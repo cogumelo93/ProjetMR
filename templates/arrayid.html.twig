@@ -2,12 +2,13 @@
 
 {% block body %}
 
-    <h1>TEAMS : </h1>
+    <h1>list of project : </h1>
 
     {% for id in arrayID %}
         <li>{{ loop.index }} : {{ id }}</li>
     {% endfor %}
     <p>*************************************************</p>
+    <a href="/home"><button>Retour à l'accueil</button></a>
 
     <!--
     <a>
